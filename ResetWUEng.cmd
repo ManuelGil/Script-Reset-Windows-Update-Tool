@@ -930,13 +930,13 @@ goto :eof
 :: /*************************************************************************************/
 
 
-:: Crea el menú de descarga de diagnósticos.
+:: Crea el menÃº de descarga de diagnÃ³sticos.
 :: void diagnostic();
 :: /*************************************************************************************/
 :diagnostic
 	call :print Download and run diagnostics for your system.
 
-	echo.    1. Windows Update on Windows 7, Windows 8 y Windows 8.1.
+	echo.    1. Windows Update on Windows 7, Windows 8 and Windows 8.1.
 	echo.    2. Windows Update on Windows 10.
 	echo.    3. Apps on Windows 8.1.
 	echo.    4. Apps on Windows 10.
