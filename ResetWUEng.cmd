@@ -2,7 +2,7 @@
 :: NAME:	Reset Windows Update Tool.
 :: DESCRIPTION:	This script reset the Windows Update Components.
 :: AUTHOR:	Manuel Gil.
-:: VERSION:	10.5.3.2
+:: VERSION:	10.5.3.4
 :: ==================================================================================
 
 
@@ -127,39 +127,21 @@ goto :eof
 		set family=8
 		:: Compatibility: Yes
 		set allow=Yes
-	) else if %version% EQU 10.0.10240 (
-		:: Name: "Microsoft Windows 10 Threshold 1"
-		set name=Microsoft Windows 10 Threshold 1
-		:: Family: Windows 10
-		set family=10
-		:: Compatibility: Yes
-		set allow=Yes
-	) else if %version% EQU 10.0.10586 (
-		:: Name: "Microsoft Windows 10 Threshold 2"
-		set name=Microsoft Windows 10 Threshold 2
-		:: Family: Windows 10
-		set family=10
-		:: Compatibility: Yes
-		set allow=Yes
-	) else if %version% EQU 10.0.14393 (
-		:: Name: "Microsoft Windows 10 Redstone 1"
-		set name=Microsoft Windows 10 Redstone 1
-		:: Family: Windows 10
-		set family=10
-		:: Compatibility: Yes
-		set allow=Yes
-	) else if %version% EQU 10.0.15063 (
-		:: Name: "Microsoft Windows 10 Creators Update"
-		set name=Microsoft Windows 10 Creators Update
-		:: Family: Windows 10
-		set family=10
-		:: Compatibility: Yes
-		set allow=Yes
 	) else (
-		:: Name: "Unknown"
-		set name=Unknown
-		:: Compatibility: No
-		set allow=No
+		ver | find "10.0." > nul
+		if %errorlevel% EQU 0 (
+			:: Name: "Microsoft Windows 10"
+			set name=Microsoft Windows 10
+			:: Family: Windows 10
+			set family=10
+			:: Compatibility: Yes
+			set allow=Yes
+		) else (
+			:: Name: "Unknown"
+			set name=Unknown
+			:: Compatibility: No
+			set allow=No
+		)
 	)
 
 	call :print %name% detected . . .
@@ -171,7 +153,7 @@ goto :eof
 	echo.    An error occurred while attempting to verify your system.
 	echo.    Can this using a business or test version.
 	echo.
-	echo.    If not, verify that your system has the correct security fix.
+	echo.    if not, verify that your system has the correct security fix.
 	echo.
 
 	echo.Press any key to continue . . .
@@ -219,16 +201,19 @@ goto :eof
 	echo.    to review the code if you're unsure.
 	echo.
 
-	choice /c YN /n /m "Do you want to continue with this process? (Yes/No) "
-	if %errorlevel% EQU 1 goto menu
-	if %errorlevel% EQU 2 goto close
-
-	echo.An unexpected error has occurred.
-	echo.
-	echo.Press any key to continue . . .
-	pause>nul
-	
-	goto menu
+	choice /c YN /n /m "Do you want to continue with this process? (Y/N) "
+	if %errorlevel% EQU 1 (
+		goto menu
+	) else if %errorlevel% EQU 2 (
+		goto close
+	) else if %errorlevel% EQU 9009 (
+		echo.
+		echo.An unexpected error has occurred.
+		echo.
+		echo.Press any key to continue . . .
+		pause>nul
+		goto menu
+	)
 goto :eof
 :: /*************************************************************************************/
 
@@ -239,22 +224,23 @@ goto :eof
 :menu
 	call :print This tool reset the Windows Update Components.
 
-	echo.    1. Open the system protection.
-	echo.    2. Reset Windows Update Components.
-	echo.    3. Delete temporary files in Windows.
-	echo.    4. Open the Internet Explorer options.
-	echo.    5. Scans all protected system files.
-	echo.    6. Scan the image to check for corruption.
-	echo.    7. Check the detected corruptions.
-	echo.    8. Repair the image.
-	echo.    9. Clean up the superseded components.
-	echo.    10. Change invalid values in the Registry.
-	echo.    11. Reset the Winsock settings.
-	echo.    12. Search updates.
-	echo.    13. Explore other local solutions.
-	echo.    14. Explore other online solutions.
-	echo.    15. Download Diagnostic.
-	echo.    16. Restart your PC.
+	echo.    1. Opens the system protection.
+	echo.    2. Resets the Windows Update Components.
+	echo.    3. Deletes the temporary files in Windows.
+	echo.    4. Opens the Internet Explorer options.
+	echo.    5. Runs Chkdsk on the Windows partition.
+	echo.    6. Runs the System File Checker tool.
+	echo.    7. Scans the image for component store corruption.
+	echo.    8. Checks whether the image has been flagged as corrupted.
+	echo.    9. Performs repair operations automatically.
+	echo.    10. Cleans up the superseded components.
+	echo.    11. Deletes any incorrect registry values.
+	echo.    12. Repairs/Resets Winsock settings.
+	echo.    13. Searches Windows updates.
+	echo.    14. Explores other local solutions.
+	echo.    15. Explores other online solutions.
+	echo.    16. Downloads the Diagnostic Tools.
+	echo.    17. Restarts your PC.
 	echo.
 	echo.                                            ?. Help.    0. Close.
 	echo.
@@ -272,28 +258,30 @@ goto :eof
 	) else if %option% EQU 4 (
 		call :iOptions
 	) else if %option% EQU 5 (
-		call :sfc
+		call :chkdsk
 	) else if %option% EQU 6 (
-		call :dism1
+		call :sfc
 	) else if %option% EQU 7 (
-		call :dism2
+		call :dism1
 	) else if %option% EQU 8 (
-		call :dism3
+		call :dism2
 	) else if %option% EQU 9 (
-		call :dism4
+		call :dism3
 	) else if %option% EQU 10 (
-		call :regedit
+		call :dism4
 	) else if %option% EQU 11 (
-		call :winsock
+		call :regedit
 	) else if %option% EQU 12 (
-		call :updates
+		call :winsock
 	) else if %option% EQU 13 (
-		call :local
+		call :updates
 	) else if %option% EQU 14 (
-		call :online
+		call :local
 	) else if %option% EQU 15 (
-		call :diagnostic
+		call :online
 	) else if %option% EQU 16 (
+		call :diagnostic
+	) else if %option% EQU 17 (
 		call :restart
 	) else if %option% EQU ? (
 		call :help
@@ -350,12 +338,12 @@ goto :eof
 	call :print Checking the services status.
 
 	sc query bits | findstr /I /C:"STOPPED"
-	If %errorlevel% NEQ 0 (
+	if %errorlevel% NEQ 0 (
 		echo.    Failed to stop the BITS service.
 		echo.
 		echo.Press any key to continue . . .
 		pause>nul
-		goto close
+		goto :eof
 	)
 
 	call :print Checking the services status.
@@ -366,7 +354,7 @@ goto :eof
 		echo.
 		echo.Press any key to continue . . .
 		pause>nul
-		goto close
+		goto :eof
 	)
 
 	call :print Checking the services status.
@@ -379,19 +367,19 @@ goto :eof
 			echo.
 			echo.Press any key to continue . . .
 			pause>nul
-			if %family% NEQ 6 goto close
+			if %family% NEQ 6 goto :eof
 		)
 	)
 
 	call :print Checking the services status.
 
 	sc query cryptsvc | findstr /I /C:"STOPPED"
-	If %errorlevel% NEQ 0 (
+	if %errorlevel% NEQ 0 (
 		echo.    Failed to stop the Cryptographic Services service.
 		echo.
 		echo.Press any key to continue . . .
 		pause>nul
-		goto close
+		goto :eof
 	)
 
 	:: ----- Delete the qmgr*.dat files -----
@@ -428,6 +416,14 @@ goto :eof
 	if exist "%SYSTEMROOT%\SoftwareDistribution" (
 		attrib -r -s -h /s /d "%SYSTEMROOT%\SoftwareDistribution"
 		ren "%SYSTEMROOT%\SoftwareDistribution" SoftwareDistribution.bak
+		if exist "%SYSTEMROOT%\SoftwareDistribution" (
+			echo.
+			echo.    Failed to rename the SoftwareDistribution folder.
+			echo.
+			echo.Press any key to continue . . .
+			pause>nul
+			goto :eof
+		)
 	)
 	if exist "%SYSTEMROOT%\system32\Catroot2" (
 		attrib -r -s -h /s /d "%SYSTEMROOT%\system32\Catroot2"
@@ -447,7 +443,7 @@ goto :eof
 	:: ----- Reregister the BITS files and the Windows Update files -----
 	call :print Reregister the BITS files and the Windows Update files.
 
-	cd /d %WINDIR%\system32
+	cd /d %SYSTEMROOT%\system32
 	regsvr32.exe /s atl.dll
 	regsvr32.exe /s urlmon.dll
 	regsvr32.exe /s mshtml.dll
@@ -533,7 +529,7 @@ goto :eof
 :: void temp();
 :: /*************************************************************************************/
 :temp
-	call :print Deleting temporary files in Windows.
+	call :print Deleting the temporary files in Windows.
 
 	del /s /f /q "%TEMP%\*.*"
 	del /s /f /q "%SYSTEMROOT%\Temp\*.*"
@@ -556,11 +552,34 @@ goto :eof
 :: /*************************************************************************************/
 
 
+:: Check and repair errors on the disk.
+:: void chkdsk();
+:: /*************************************************************************************/
+:chkdsk
+	call :print Check the file system and file system metadata of a volume for logical and physical errors (CHKDSK.exe).
+
+	chkdsk %SYSTEMDRIVE% /f /r
+
+	if %errorlevel% EQU 0 (
+		echo.
+		echo.The operation completed successfully.
+	) else (
+		echo.
+		echo.An error occurred during operation.
+	)
+
+	echo.
+	echo.Press any key to continue . . .
+	pause>nul
+goto :eof
+:: /*************************************************************************************/
+
+
 :: Scans all protected system files.
 :: void sfc();
 :: /*************************************************************************************/
 :sfc
-	call :print Scans all protected system files.
+	call :print Scan your system files and to repair missing or corrupted system files (SFC.exe).
 
 	if %family% NEQ 5 (
 		sfc /scannow
@@ -568,7 +587,7 @@ goto :eof
 		echo.Sorry, this option is not available on this Operative System.
 	)
 
-	If %errorlevel% EQU 0 (
+	if %errorlevel% EQU 0 (
 		echo.
 		echo.The operation completed successfully.
 	) else (
@@ -587,7 +606,7 @@ goto :eof
 :: void dism1();
 :: /*************************************************************************************/
 :dism1
-	call :print Scanning the image to check for corruption.
+	call :print Scan the image for component store corruption (The DISM /ScanHealth argument).
 
 	if %family% EQU 8 (
 		Dism.exe /Online /Cleanup-Image /ScanHealth
@@ -597,7 +616,7 @@ goto :eof
 		echo.Sorry, this option is not available on this Operative System.
 	)
 
-	If %errorlevel% EQU 0 (
+	if %errorlevel% EQU 0 (
 		echo.
 		echo.The operation completed successfully.
 	) else (
@@ -616,7 +635,7 @@ goto :eof
 :: void dism2();
 :: /*************************************************************************************/
 :dism2
-	call :print Checking the detected corruptions.
+	call :print Check whether the image has been flagged as corrupted by a failed process and whether the corruption can be repaired (The DISM /CheckHealth argument).
 
 	if %family% EQU 8 (
 		Dism.exe /Online /Cleanup-Image /CheckHealth
@@ -626,7 +645,7 @@ goto :eof
 		echo.Sorry, this option is not available on this Operative System.
 	)
 
-	If %errorlevel% EQU 0 (
+	if %errorlevel% EQU 0 (
 		echo.
 		echo.The operation completed successfully.
 	) else (
@@ -641,11 +660,11 @@ goto :eof
 :: /*************************************************************************************/
 
 
-:: Repair the image.
+:: Repair the Windows image.
 :: void dism3();
 :: /*************************************************************************************/
 :dism3
-	call :print Repairing the image.
+	call :print Scan the image for component store corruption, and then perform repair operations automatically (The DISM /RestoreHealth argument).
 
 	if %family% EQU 8 (
 		Dism.exe /Online /Cleanup-Image /RestoreHealth
@@ -655,7 +674,7 @@ goto :eof
 		echo.Sorry, this option is not available on this Operative System.
 	)
 
-	If %errorlevel% EQU 0 (
+	if %errorlevel% EQU 0 (
 		echo.
 		echo.The operation completed successfully.
 	) else (
@@ -670,11 +689,11 @@ goto :eof
 :: /*************************************************************************************/
 
 
-:: Clean up the superseded components .
+:: Clean up the superseded components.
 :: void dism4();
 :: /*************************************************************************************/
 :dism4
-	call :print Clean up the superseded components.
+	call :print Clean up the superseded components and reduce the size of the component store (The DISM /StartComponentCleanup argument).
 
 	if %family% EQU 8 (
 		Dism.exe /Online /Cleanup-Image /StartComponentCleanup
@@ -684,7 +703,7 @@ goto :eof
 		echo.Sorry, this option is not available on this Operative System.
 	)
 
-	If %errorlevel% EQU 0 (
+	if %errorlevel% EQU 0 (
 		echo.
 		echo.The operation completed successfully.
 	) else (
@@ -703,12 +722,12 @@ goto :eof
 :: void regedit();
 :: /*************************************************************************************/
 :regedit
-	for /f "tokens=1-5 delims=/, " %%a in ("%date%") do (
+	for /f "tokens=1-5 delims=/., " %%a in ("%date%") do (
 		set now=%%a%%b%%c%%d%time:~0,2%%time:~3,2%
 	)
 
 	:: ----- Create a backup of the Registry -----
-	call :print Making a backup copy of the Registry in: %USERPROFILE%\Desktop\Backup%now%.reg
+	call :print Making a backup of the Registry in: %USERPROFILE%\Desktop\Backup%now%.reg
 
 	if exist "%USERPROFILE%\Desktop\Backup%now%.reg" (
 		echo.An unexpected error has occurred.
@@ -724,7 +743,7 @@ goto :eof
 	)
 
 	:: ----- Checking backup -----
-	call :print Checking the backup copy.
+	call :print Checking the backup.
 
 	if not exist "%USERPROFILE%\Desktop\Backup%now%.reg" (
 		echo.An unexpected error has occurred.
@@ -742,12 +761,40 @@ goto :eof
 	:: ----- Delete keys in the Registry -----
 	call :print Deleting values in the Registry.
 
-	reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo" /f
+	reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\WindowsUpdate" /f
+	reg delete "HKCU\Software\Microsoft\WindowsSelfHost" /f
+	reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate" /f
+	reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsUpdate" /f
+	reg delete "HKLM\Software\Microsoft\WindowsSelfHost" /f
+	reg delete "HKLM\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\WindowsStore\WindowsUpdate" /f
+
 	reg delete "HKLM\COMPONENTS\PendingXmlIdentifier" /f
 	reg delete "HKLM\COMPONENTS\NextQueueEntryIndex" /f
 	reg delete "HKLM\COMPONENTS\AdvancedInstallersNeedResolving" /f
-	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired" /f
+	reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
 	
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v ResetClient /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v ResetDataStoreReason /f
+
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v PingID /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v AccountDomainSid /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v SusClientId /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v SusClientIDValidation /f
+
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v AUState /f
+
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v LastWaitTimeout /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v DetectionstartTime /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update" /v NextDetectionTime /f
+
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired" /f
+
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\Results" /f
+
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Reporting" /v SamplingValue /f
+	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Services" /v ReregisterAuthorizationCab /f
+
 	:: ----- Add keys in the Registry -----
 	call :print Adding values in the Registry.
 
@@ -925,7 +972,7 @@ goto :eof
 :: void help();
 :: /*************************************************************************************/
 :help
-	start %~dp0Help.chm
+	start %~dp0HELP.chm
 goto :eof
 :: /*************************************************************************************/
 
