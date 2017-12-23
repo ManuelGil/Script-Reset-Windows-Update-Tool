@@ -2,7 +2,7 @@
 :: NAME:	Reset Windows Update Tool.
 :: DESCRIPTION:	This script reset the Windows Update Components.
 :: AUTHOR:	Manuel Gil.
-:: VERSION:	10.5.3.4
+:: VERSION:	10.5.3.5
 :: ==================================================================================
 
 
@@ -972,7 +972,7 @@ goto :eof
 :: void help();
 :: /*************************************************************************************/
 :help
-	start %~dp0HELP.chm
+	start http://docs.wureset.com/
 goto :eof
 :: /*************************************************************************************/
 
