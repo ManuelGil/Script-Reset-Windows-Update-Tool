@@ -41,14 +41,6 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
   * <table border="0" cellpadding="4">
 		<tr>
-			<td>
-				<strong>Language:</strong>
-			</td>
-			<td>
-				Windows Shell Script
-			</td>
-		</tr>
-		<tr>
 			<td><strong>
 				Requirements:
 			</strong></td>
