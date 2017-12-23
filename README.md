@@ -37,7 +37,7 @@ This page will help you get started with Reset Windows Update Tool (Script).
 <a name="changelog"></a>
 ## :information_source: Changelog
 
-**10.5.3.5** (22/16/2017)
+**10.5.3.5** (12/22/2017)
 
   * <table border="0" cellpadding="4">
 		<tr>
