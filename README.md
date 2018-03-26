@@ -3,6 +3,12 @@
 </div>
 
 <div align="center">
+	<a href="http://wureset.com/">
+		<img src="https://github.com/ManuelGil/Reset-Windows-Update-Tool/blob/master/docs/images/wureset.png?raw=true" alt="Logo" height="300" width="300">
+	</a>
+</div>
+<br />
+<div align="center">
 	<a href="#changelog">
 		<img src="https://img.shields.io/badge/stability-frozen-blue.svg" alt="Status">
 	</a>
@@ -14,6 +20,12 @@
 	</a>
 	<a href="#license">
 		<img src="https://img.shields.io/badge/license-MIT%20License-green.svg" alt="License">
+	</a>
+</div>
+
+<div align="center">
+	<a href="https://twitter.com/intent/follow?screen_name=wureset">
+		<img src="https://img.shields.io/twitter/follow/wureset.svg?style=social" alt="Twitter">
 	</a>
 </div>
 
