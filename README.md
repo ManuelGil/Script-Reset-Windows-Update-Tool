@@ -28,6 +28,13 @@
 		<img src="https://img.shields.io/twitter/follow/wureset.svg?style=social" alt="Twitter">
 	</a>
 </div>
+<br />
+<div align="center">
+	<a href="https://support.microsoft.com/en-us/help/13853/windows-lifecycle-fact-sheet">
+		<img src="https://github.com/ManuelGil/Reset-Windows-Update-Tool/blob/master/docs/images/Windows-Update.png?raw=true" alt="Lifecycle">
+	</a>
+</div>
+<br />
 
 This script reset the Windows Update Components.
 
@@ -163,6 +170,12 @@ This page will help you get started with Reset Windows Update Tool (Script).
 			</td>
 		</tr>
 	</table>
+
+<a name="contributing"></a>
+## :octocat: Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](https://github.com/ManuelGil/Reset-Windows-Update-Tool/issues)
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md)
+ for details on our code of conduct.
 
 <a name="Donate"></a>
 ## :gift: Donate!
