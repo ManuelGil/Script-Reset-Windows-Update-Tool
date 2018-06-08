@@ -1,8 +1,9 @@
-﻿:: ==================================================================================
+:: ==================================================================================
 :: NAME:	Reset Windows Update Tool.
 :: DESCRIPTION:	This script reset the Windows Update Components.
 :: AUTHOR:	Manuel Gil.
-:: VERSION:	10.5.3.5
+:: VERSION:	10.5.3.6 [+500K Downloads Celebration]
+:: WEBSITE:	http://wureset.com
 :: ==================================================================================
 
 
@@ -154,6 +155,7 @@ goto :eof
 	echo.    Can this using a business or test version.
 	echo.
 	echo.    if not, verify that your system has the correct security fix.
+				   
 	echo.
 
 	echo.Press any key to continue . . .
@@ -236,11 +238,12 @@ goto :eof
 	echo.    10. Cleans up the superseded components.
 	echo.    11. Deletes any incorrect registry values.
 	echo.    12. Repairs/Resets Winsock settings.
-	echo.    13. Searches Windows updates.
-	echo.    14. Explores other local solutions.
-	echo.    15. Explores other online solutions.
-	echo.    16. Downloads the Diagnostic Tools.
-	echo.    17. Restarts your PC.
+	echo.    13. Force Group Policy Update.
+	echo.    14. Searches Windows updates.
+	echo.    15. Explores other local solutions.
+	echo.    16. Explores other online solutions.
+	echo.    17. Downloads the Diagnostic Tools.
+	echo.    18. Restarts your PC.
 	echo.
 	echo.                                            ?. Help.    0. Close.
 	echo.
@@ -274,14 +277,16 @@ goto :eof
 	) else if %option% EQU 12 (
 		call :winsock
 	) else if %option% EQU 13 (
-		call :updates
+		call :gpupdate
 	) else if %option% EQU 14 (
-		call :local
+		call :updates
 	) else if %option% EQU 15 (
-		call :online
+		call :local
 	) else if %option% EQU 16 (
-		call :diagnostic
+		call :online
 	) else if %option% EQU 17 (
+		call :diagnostic
+	) else if %option% EQU 18 (
 		call :restart
 	) else if %option% EQU ? (
 		call :help
@@ -333,6 +338,9 @@ goto :eof
 
 	call :print Stopping the Windows Update services.
 	net stop cryptsvc
+
+	call :print Canceling the Windows Update process.
+	taskkill /im wuauclt.exe /f
 
 	:: ----- Checking the services status -----
 	call :print Checking the services status.
@@ -437,8 +445,10 @@ goto :eof
 	:: ----- Reset the BITS service and the Windows Update service to the default security descriptor -----
 	call :print Reset the BITS service and the Windows Update service to the default security descriptor.
 
-	sc.exe sdset bits D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
-	sc.exe sdset wuauserv D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;AU)(A;;CCLCSWRPWPDTLOCRRC;;;PU)
+	sc.exe sdset wuauserv D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
+	sc.exe sdset bits D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
+	sc.exe sdset cryptsvc D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
+	sc.exe sdset trustedinstaller D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
 
 	:: ----- Reregister the BITS files and the Windows Update files -----
 	call :print Reregister the BITS files and the Windows Update files.
@@ -496,9 +506,11 @@ goto :eof
 
 	:: ----- Set the startup type as automatic -----
 	call :print Resetting the services as automatics.
-	sc config wuauserv start= auto
-	sc config bits start= auto
-	sc config DcomLaunch start= auto
+	sc.exe config wuauserv start= auto
+	sc.exe config bits start= delayed-auto
+	sc.exe config cryptsvc start= auto
+	sc.exe config TrustedInstaller start= demand
+	sc.exe config DcomLaunch start= auto
 
 	:: ----- Starting the Windows Update services -----
 	call :print Starting the Windows Update services.
@@ -883,6 +895,33 @@ goto :eof
 	:: ----- End process -----
 	call :print The operation completed successfully.
 
+	echo.Press any key to continue . . .
+	pause>nul
+goto :eof
+:: /*************************************************************************************/
+
+
+:: Forcing group policy update.
+:: void gpupdate();
+:: /*************************************************************************************/
+:gpupdate
+	call :print Forcing group policy update.
+
+	if %family% NEQ 5 (
+		gpupdate /force
+	) else (
+		echo.Sorry, this option is not available on this Operative System.
+	)
+
+	if %errorlevel% EQU 0 (
+		echo.
+		echo.The operation completed successfully.
+	) else (
+		echo.
+		echo.An error occurred during operation.
+	)
+
+	echo.
 	echo.Press any key to continue . . .
 	pause>nul
 goto :eof

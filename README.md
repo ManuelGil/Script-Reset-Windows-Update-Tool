@@ -13,10 +13,13 @@
 		<img src="https://img.shields.io/badge/stability-frozen-blue.svg" alt="Status">
 	</a>
 	<a href="#changelog">
-		<img src="https://img.shields.io/badge/release-v10.5.3.5-blue.svg" alt="Version">
+		<img src="https://img.shields.io/badge/release-v10.5.3.6-blue.svg" alt="Version">
 	</a>
 	<a href="#changelog">
-		<img src="https://img.shields.io/badge/update-december-yellowgreen.svg" alt="Update">
+		<img src="https://img.shields.io/badge/update-juny-yellowgreen.svg" alt="Update">
+	</a>
+	<a href="https://gallery.technet.microsoft.com/scriptcenter/Reset-Windows-Update-Agent-d824badc">
+		<img src="https://img.shields.io/badge/downloads-%2B500K-green.svg" alt="License">
 	</a>
 	<a href="#license">
 		<img src="https://img.shields.io/badge/license-MIT%20License-green.svg" alt="License">
@@ -55,6 +58,45 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 <a name="changelog"></a>
 ## :information_source: Changelog
+
+**10.5.3.6** (06/07/2018) [+500K Downloads Celebration](https://gallery.technet.microsoft.com/scriptcenter/Reset-Windows-Update-Agent-d824badc)
+
+  * <table border="0" cellpadding="4">
+		<tr>
+			<td><strong>
+				Requirements:
+			</strong></td>
+			<td>
+				Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
+				and Windows 10
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<strong>Filename:</strong>
+			</td>
+			<td>
+				<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
+					ResetWUEng.cmd
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<strong>Changes:</strong>
+			</td>
+			<td>
+				<ul>
+					<li>
+						Verification of services restore
+					</li>
+					<li>
+						Force Group Policy Update.
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
 
 **10.5.3.5** (12/22/2017)
 
