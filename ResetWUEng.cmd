@@ -940,7 +940,7 @@ goto :eof
 	wuauclt /resetauthorization /detectnow
 
 	if %family% EQU 10 (
-		start ms-settings:windowsupdate
+		start ms-settings:windowsupdate-action
 	) else (
 		if %family% NEQ 5 (
 			start wuapp.exe
@@ -1026,7 +1026,6 @@ goto :eof
 	echo.    2. Windows Update on Windows 10.
 	echo.    3. Apps on Windows 8.1.
 	echo.    4. Apps on Windows 10.
-	echo.    5. Start Menu on Windows 10.
 	echo.
 	echo.                                                        0. Back.
 	echo.
@@ -1043,8 +1042,6 @@ goto :eof
 		start http://go.microsoft.com/fwlink/p/?LinkId=268423
 	) else if %option% EQU 4 (
 		start http://aka.ms/diag_apps10
-	) else if %option% EQU 5 (
-		start http://aka.ms/startmenuTS
 	) else (
 		echo.
 		echo.Invalid option.
