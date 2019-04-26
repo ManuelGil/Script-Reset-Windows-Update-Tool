@@ -56,6 +56,12 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
   * This file don't require installation
 
+<a name="support"></a>
+### Support
+  * Issues: [https://github.com/ManuelGil/Reset-Windows-Update-Tool/issues](https://github.com/ManuelGil/Reset-Windows-Update-Tool/issues)
+  * Wiki: [https://github.com/ManuelGil/Reset-Windows-Update-Tool/wiki](https://github.com/ManuelGil/Reset-Windows-Update-Tool/wiki)
+  * Docs: [http://docs.wureset.com](http://docs.wureset.com)
+
 <a name="Donate"></a>
 ## :gift: Donate!
 

@@ -13,7 +13,7 @@
 :mode
 	echo off
 	title Reset Windows Update Tool.
-	mode con cols=78 lines=32
+	mode con cols=80 lines=32
 	color 17
 	cls
 
@@ -738,10 +738,12 @@ goto :eof
 		set now=%%a%%b%%c%%d%time:~0,2%%time:~3,2%
 	)
 
-	:: ----- Create a backup of the Registry -----
-	call :print Making a backup of the Registry in: %USERPROFILE%\Desktop\Backup%now%.reg
+	mkdir "%USERPROFILE%\Desktop\Backup\%now%\"
 
-	if exist "%USERPROFILE%\Desktop\Backup%now%.reg" (
+	:: ----- Create a backup of the Registry -----
+	call :print Making a backup of the Registry in: %USERPROFILE%\Desktop\Backup\%now%\
+
+	if exist "%USERPROFILE%\Desktop\Backup\%now%\HKLM.reg" (
 		echo.An unexpected error has occurred.
 		echo.
 		echo.    Changes were not carried out in the registry.
@@ -751,13 +753,17 @@ goto :eof
 		pause>nul
 		goto :eof
 	) else (
-		regedit /e "%USERPROFILE%\Desktop\Backup%now%.reg"
+		reg Export HKCR "%USERPROFILE%\Desktop\Backup\%now%\HKCR.reg"
+		reg Export HKCU "%USERPROFILE%\Desktop\Backup\%now%\HKCU.reg"
+		reg Export HKLM "%USERPROFILE%\Desktop\Backup\%now%\HKLM.reg"
+		reg Export HKU "%USERPROFILE%\Desktop\Backup\%now%\HKU.reg"
+		reg Export HKCC "%USERPROFILE%\Desktop\Backup\%now%\HKCC.reg"
 	)
 
 	:: ----- Checking backup -----
 	call :print Checking the backup.
 
-	if not exist "%USERPROFILE%\Desktop\Backup%now%.reg" (
+	if not exist "%USERPROFILE%\Desktop\Backup\%now%\HKLM.reg" (
 		echo.An unexpected error has occurred.
 		echo.
 		echo.    Something went wrong.
