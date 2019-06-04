@@ -2,7 +2,7 @@
 :: NAME:	Reset Windows Update Tool.
 :: DESCRIPTION:	This script reset the Windows Update Components.
 :: AUTHOR:	Manuel Gil.
-:: VERSION:	10.5.3.6 [+500K Downloads Celebration]
+:: VERSION:	10.5.3.7
 :: WEBSITE:	http://wureset.com
 :: ==================================================================================
 
@@ -13,7 +13,7 @@
 :mode
 	echo off
 	title Reset Windows Update Tool.
-	mode con cols=80 lines=32
+	mode con cols=80 lines=34
 	color 17
 	cls
 
@@ -238,12 +238,13 @@ goto :eof
 	echo.    10. Cleans up the superseded components.
 	echo.    11. Deletes any incorrect registry values.
 	echo.    12. Repairs/Resets Winsock settings.
-	echo.    13. Force Group Policy Update.
+	echo.    13. Forces Group Policy Update.
 	echo.    14. Searches Windows updates.
-	echo.    15. Explores other local solutions.
-	echo.    16. Explores other online solutions.
-	echo.    17. Downloads the Diagnostic Tools.
-	echo.    18. Restarts your PC.
+	echo.    15. Runs SetupDiag (Require .NET Framework 4.6).
+	echo.    16. Explores other local solutions.
+	echo.    17. Explores other online solutions.
+	echo.    18. Downloads the Diagnostic Tools.
+	echo.    19. Restarts your PC.
 	echo.
 	echo.                                            ?. Help.    0. Close.
 	echo.
@@ -281,12 +282,14 @@ goto :eof
 	) else if %option% EQU 14 (
 		call :updates
 	) else if %option% EQU 15 (
-		call :local
+		call :setupDiag
 	) else if %option% EQU 16 (
-		call :online
+		call :local
 	) else if %option% EQU 17 (
-		call :diagnostic
+		call :online
 	) else if %option% EQU 18 (
+		call :diagnostic
+	) else if %option% EQU 19 (
 		call :restart
 	) else if %option% EQU ? (
 		call :help
@@ -738,12 +741,14 @@ goto :eof
 		set now=%%a%%b%%c%%d%time:~0,2%%time:~3,2%
 	)
 
-	mkdir "%USERPROFILE%\Desktop\Backup\%now%\"
+	if not exist "%USERPROFILE%\Desktop\Backup\Regedit\%now%\" (
+		mkdir "%USERPROFILE%\Desktop\Backup\Regedit\%now%\"
+	)
 
 	:: ----- Create a backup of the Registry -----
-	call :print Making a backup of the Registry in: %USERPROFILE%\Desktop\Backup\%now%\
+	call :print Making a backup of the Registry in: %USERPROFILE%\Desktop\Backup\Regedit\%now%\
 
-	if exist "%USERPROFILE%\Desktop\Backup\%now%\HKLM.reg" (
+	if exist "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKLM.reg" (
 		echo.An unexpected error has occurred.
 		echo.
 		echo.    Changes were not carried out in the registry.
@@ -753,17 +758,17 @@ goto :eof
 		pause>nul
 		goto :eof
 	) else (
-		reg Export HKCR "%USERPROFILE%\Desktop\Backup\%now%\HKCR.reg"
-		reg Export HKCU "%USERPROFILE%\Desktop\Backup\%now%\HKCU.reg"
-		reg Export HKLM "%USERPROFILE%\Desktop\Backup\%now%\HKLM.reg"
-		reg Export HKU "%USERPROFILE%\Desktop\Backup\%now%\HKU.reg"
-		reg Export HKCC "%USERPROFILE%\Desktop\Backup\%now%\HKCC.reg"
+		reg Export HKCR "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKCR.reg"
+		reg Export HKCU "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKCU.reg"
+		reg Export HKLM "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKLM.reg"
+		reg Export HKU "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKU.reg"
+		reg Export HKCC "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKCC.reg"
 	)
 
 	:: ----- Checking backup -----
 	call :print Checking the backup.
 
-	if not exist "%USERPROFILE%\Desktop\Backup\%now%\HKLM.reg" (
+	if not exist "%USERPROFILE%\Desktop\Backup\Regedit\%now%\HKLM.reg" (
 		echo.An unexpected error has occurred.
 		echo.
 		echo.    Something went wrong.
@@ -958,6 +963,33 @@ goto :eof
 			pause>nul
 		)
 	)
+goto :eof
+:: /*************************************************************************************/
+
+
+:: Run SetupDiag.
+:: void setupDiag();
+:: /*************************************************************************************/
+:setupDiag
+	for /f "tokens=1-5 delims=/., " %%a in ("%date%") do (
+		set now=%%a%%b%%c%%d%time:~0,2%%time:~3,2%
+	)
+
+	if not exist "%USERPROFILE%\Desktop\Backup\Logs\%now%\" (
+		mkdir "%USERPROFILE%\Desktop\Backup\Logs\%now%\"
+	)
+
+	call :print Running the standalone diagnostic tool SetupDiag
+
+	if %family% EQU 10 (
+		call "%~dp0SetupDiag.exe" /Output:"%USERPROFILE%\Desktop\Backup\Logs\%now%\WindowsUpdate.log" /Format:log
+	) else (
+		echo.Sorry, this option is not available on this Operative System.
+	)
+
+	echo.
+	echo.Press any key to continue . . .
+	pause>nul
 goto :eof
 :: /*************************************************************************************/
 

@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-	<a href="http://wureset.com/">
+	<a href="https://wureset.com/downloads.php" target="_blank">
 		<img src="https://github.com/ManuelGil/Reset-Windows-Update-Tool/blob/master/docs/images/wureset.png?raw=true" alt="Logo" height="300" width="300">
 	</a>
 </div>
@@ -13,12 +13,12 @@
 		<img src="https://img.shields.io/badge/stability-frozen-blue.svg" alt="Status">
 	</a>
 	<a href="#changelog">
-		<img src="https://img.shields.io/badge/release-v10.5.3.6-blue.svg" alt="Version">
+		<img src="https://img.shields.io/badge/release-v10.5.3.7-blue.svg" alt="Version">
 	</a>
 	<a href="#changelog">
 		<img src="https://img.shields.io/badge/update-juny-yellowgreen.svg" alt="Update">
 	</a>
-	<a href="https://gallery.technet.microsoft.com/scriptcenter/Reset-Windows-Update-Agent-d824badc">
+	<a href="https://gallery.technet.microsoft.com/scriptcenter/Reset-Windows-Update-Agent-d824badc" target="_blank">
 		<img src="https://img.shields.io/badge/downloads-%2B500K-green.svg" alt="License">
 	</a>
 	<a href="#license">
@@ -71,6 +71,42 @@ If you want to help me to continue this project, you might donate via PayPal.
 
 <a name="changelog"></a>
 ## :information_source: Changelog
+
+**10.5.3.7** (06/04/2019)
+
+  * <table border="0" cellpadding="4">
+		<tr>
+			<td><strong>
+				Requirements:
+			</strong></td>
+			<td>
+				Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
+				and Windows 10
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<strong>Filename:</strong>
+			</td>
+			<td>
+				<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
+					ResetWUEng.cmd
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<strong>Changes:</strong>
+			</td>
+			<td>
+				<ul>
+					<li>
+						Add the standalone diagnostic tool <a href="https://go.microsoft.com/fwlink/?linkid=870142" target="_blank">SetupDiag</a>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
 
 **10.5.3.6** (06/07/2018) [+500K Downloads Celebration](https://gallery.technet.microsoft.com/scriptcenter/Reset-Windows-Update-Agent-d824badc)
 
