@@ -96,6 +96,9 @@ This page will help you get started with Reset Windows Update Tool (Script).
   				<li>
   					Add Reset Windows Store command
   				</li>
+  				<li>
+				  	Removed the standalone diagnostic tool
+  				</li>
   			</ul>
   		</td>
   	</tr>
@@ -105,9 +108,9 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 - <table border="0" cellpadding="4">
   	<tr>
-  		<td><strong>
+  		<td>
   			Requirements:
-  		</strong></td>
+  		</td>
   		<td>
   			Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
   			and Windows 10
@@ -115,17 +118,15 @@ This page will help you get started with Reset Windows Update Tool (Script).
   	</tr>
   	<tr>
   		<td>
-  			<strong>Filename:</strong>
+  			Filename:
   		</td>
   		<td>
-  			<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
-  				ResetWUEng.cmd
-  			</a>
+  			ResetWUEng.cmd
   		</td>
   	</tr>
   	<tr>
   		<td>
-  			<strong>Changes:</strong>
+  			Changes:
   		</td>
   		<td>
   			<ul>
@@ -141,9 +142,9 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 - <table border="0" cellpadding="4">
   	<tr>
-  		<td><strong>
+  		<td>
   			Requirements:
-  		</strong></td>
+  		</td>
   		<td>
   			Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
   			and Windows 10
@@ -151,17 +152,15 @@ This page will help you get started with Reset Windows Update Tool (Script).
   	</tr>
   	<tr>
   		<td>
-  			<strong>Filename:</strong>
+  			Filename:
   		</td>
   		<td>
-  			<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
-  				ResetWUEng.cmd
-  			</a>
+  			ResetWUEng.cmd
   		</td>
   	</tr>
   	<tr>
   		<td>
-  			<strong>Changes:</strong>
+  			Changes:
   		</td>
   		<td>
   			<ul>
@@ -180,9 +179,9 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 - <table border="0" cellpadding="4">
   	<tr>
-  		<td><strong>
+  		<td>
   			Requirements:
-  		</strong></td>
+  		</td>
   		<td>
   			Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
   			and Windows 10
@@ -190,17 +189,15 @@ This page will help you get started with Reset Windows Update Tool (Script).
   	</tr>
   	<tr>
   		<td>
-  			<strong>Filename:</strong>
+  			Filename:
   		</td>
   		<td>
-  			<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
-  				ResetWUEng.cmd
-  			</a>
+  			ResetWUEng.cmd
   		</td>
   	</tr>
   	<tr>
   		<td>
-  			<strong>Changes:</strong>
+  			Changes:
   		</td>
   		<td>
   			<ul>
@@ -216,9 +213,9 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 - <table border="0" cellpadding="4">
   	<tr>
-  		<td><strong>
+  		<td>
   			Requirements:
-  		</strong></td>
+  		</td>
   		<td>
   			Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
   			and Windows 10
@@ -226,17 +223,15 @@ This page will help you get started with Reset Windows Update Tool (Script).
   	</tr>
   	<tr>
   		<td>
-  			<strong>Filename:</strong>
+  			Filename:
   		</td>
   		<td>
-  			<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
-  				ResetWUEng.cmd
-  			</a>
+  			ResetWUEng.cmd
   		</td>
   	</tr>
   	<tr>
   		<td>
-  			<strong>Changes:</strong>
+  			Changes:
   		</td>
   		<td>
   			<ul>
@@ -258,9 +253,9 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 - <table border="0" cellpadding="4">
   	<tr>
-  		<td><strong>
+  		<td>
   			Requirements:
-  		</strong></td>
+  		</td>
   		<td>
   			Windows XP, Windows Vista, Windows 7, Windows 8, Windows 8.1
   			and Windows 10
@@ -268,17 +263,15 @@ This page will help you get started with Reset Windows Update Tool (Script).
   	</tr>
   	<tr>
   		<td>
-  			<strong>Filename:</strong>
+  			Filename:
   		</td>
   		<td>
-  			<a href="https://github.com/ManuelGil/Script-Reset-Windows-Update-Tool">
-  				ResetWUEng.cmd
-  			</a>
+  			ResetWUEng.cmd
   		</td>
   	</tr>
   	<tr>
   		<td>
-  			<strong>Changes:</strong>
+  			Changes:
   		</td>
   		<td>
   			<ul>
