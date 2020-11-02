@@ -65,7 +65,7 @@ This page will help you get started with Reset Windows Update Tool (Script).
 
 ## :information_source: Changelog
 
-**10.5.4.1** (11/02/2020) 5 Years Celebration
+**10.5.4.1** (11/02/2020) [5 Years Celebration](https://wureset.com)
 
 - <table border="0" cellpadding="4">
   	<tr>
