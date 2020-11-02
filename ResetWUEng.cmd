@@ -2,8 +2,7 @@
 :: NAME:	Reset Windows Update Tool.
 :: DESCRIPTION:	This script reset the Windows Update Components.
 :: AUTHOR:	Manuel Gil.
-:: VERSION:	10.5.3.7
-:: WEBSITE:	http://wureset.com
+:: VERSION:	10.5.4.1 - Date: 11/02/2020
 :: ==================================================================================
 
 
@@ -13,7 +12,7 @@
 :mode
 	echo off
 	title Reset Windows Update Tool.
-	mode con cols=80 lines=34
+	mode con cols=90 lines=36
 	color 17
 	cls
 
@@ -55,58 +54,43 @@ goto :eof
 :: void getValues();
 :: /************************************************************************************/
 :getValues
-	for /f "tokens=4-5 delims=[] " %%a in ('ver') do set version=%%a%%b
-	for %%a in (%version%) do set version=%%a
+	for /f "tokens=4 delims=[] " %%a in ('ver') do set version=%%a
 
-	if %version% EQU 5.1.2600 (
-		:: Name: "Microsoft Windows XP"
-		set name=Microsoft Windows XP
-		:: Family: Windows 5
-		set family=5
-		:: Compatibility: Yes
-		set allow=Yes
-	) else if %version% EQU 5.2.3790 (
-		:: Name: "Microsoft Windows XP Professional x64 Edition"
-		set name=Microsoft Windows XP Professional x64 Edition
-		:: Family: Windows 5
-		set family=5
-		:: Compatibility: Yes
-		set allow=Yes
-	) else if %version% EQU 6.0.6000 (
+	if %version% EQU 6.0.6000 (
 		:: Name: "Microsoft Windows Vista"
 		set name=Microsoft Windows Vista
 		:: Family: Windows 6
 		set family=6
-		:: Compatibility: Yes
-		set allow=Yes
+		:: Compatibility: No
+		set allow=No
 	) else if %version% EQU 6.0.6001 (
 		:: Name: "Microsoft Windows Vista SP1"
 		set name=Microsoft Windows Vista SP1
 		:: Family: Windows 6
 		set family=6
-		:: Compatibility: Yes
-		set allow=Yes
+		:: Compatibility: No
+		set allow=No
 	) else if %version% EQU 6.0.6002 (
 		:: Name: "Microsoft Windows Vista SP2"
 		set name=Microsoft Windows Vista SP2
 		:: Family: Windows 6
 		set family=6
-		:: Compatibility: Yes
-		set allow=Yes
+		:: Compatibility: No
+		set allow=No
 	) else if %version% EQU 6.1.7600 (
 		:: Name: "Microsoft Windows 7"
 		set name=Microsoft Windows 7
 		:: Family: Windows 7
 		set family=7
-		:: Compatibility: Yes
-		set allow=Yes
+		:: Compatibility: No
+		set allow=No
 	) else if %version% EQU 6.1.7601 (
 		:: Name: "Microsoft Windows 7 SP1"
 		set name=Microsoft Windows 7 SP1
 		:: Family: Windows 7
 		set family=7
-		:: Compatibility: Yes
-		set allow=Yes
+		:: Compatibility: No
+		set allow=No
 	) else if %version% EQU 6.2.9200 (
 		:: Name: "Microsoft Windows 8"
 		set name=Microsoft Windows 8
@@ -155,7 +139,7 @@ goto :eof
 	echo.    Can this using a business or test version.
 	echo.
 	echo.    if not, verify that your system has the correct security fix.
-				   
+
 	echo.
 
 	echo.Press any key to continue . . .
@@ -240,11 +224,12 @@ goto :eof
 	echo.    12. Repairs/Resets Winsock settings.
 	echo.    13. Forces Group Policy Update.
 	echo.    14. Searches Windows updates.
-	echo.    15. Runs SetupDiag (Require .NET Framework 4.6).
-	echo.    16. Explores other local solutions.
-	echo.    17. Explores other online solutions.
-	echo.    18. Downloads the Diagnostic Tools.
-	echo.    19. Restarts your PC.
+	echo.    15. Resets the Windows Store.
+	echo.    16. Finds the Windows Product Key.
+	echo.    17. Explores other local solutions.
+	echo.    18. Explores other online solutions.
+	echo.    19. Downloads the Diagnostic Tools.
+	echo.    20. Restarts your PC.
 	echo.
 	echo.                                            ?. Help.    0. Close.
 	echo.
@@ -282,14 +267,16 @@ goto :eof
 	) else if %option% EQU 14 (
 		call :updates
 	) else if %option% EQU 15 (
-		call :setupDiag
+		call :wsreset
 	) else if %option% EQU 16 (
-		call :local
+		call :productKey
 	) else if %option% EQU 17 (
-		call :online
+		call :local
 	) else if %option% EQU 18 (
-		call :diagnostic
+		call :online
 	) else if %option% EQU 19 (
+		call :diagnostic
+	) else if %option% EQU 20 (
 		call :restart
 	) else if %option% EQU ? (
 		call :help
@@ -300,9 +287,9 @@ goto :eof
 		echo.Press any key to continue . . .
 		pause>nul
 	)
-	
+
 	goto menu
-goto :eof	
+goto :eof
 :: /*************************************************************************************/
 
 
@@ -448,10 +435,10 @@ goto :eof
 	:: ----- Reset the BITS service and the Windows Update service to the default security descriptor -----
 	call :print Reset the BITS service and the Windows Update service to the default security descriptor.
 
-	sc.exe sdset wuauserv D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
-	sc.exe sdset bits D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
-	sc.exe sdset cryptsvc D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
-	sc.exe sdset trustedinstaller D:(A;;CCLCSWLOCRRC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLCRSDRCWDWO;;;SO)(A;;CCLCSWRPWPDTLOCRRC;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;WD)
+	sc.exe sdset wuauserv D:(A;CI;CCLCSWRPLORC;;;AU)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)S:(AU;FA;CCDCLCSWRPWPDTLOSDRCWDWO;;;WD)
+	sc.exe sdset bits D:(A;CI;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;SAFA;WDWO;;;BA)
+	sc.exe sdset cryptsvc D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SO)(A;;CCLCSWLORC;;;AC)(A;;CCLCSWLORC;;;S-1-15-3-1024-3203351429-2120443784-2872670797-1918958302-2829055647-4275794519-765664414-2751773334)
+	sc.exe sdset trustedinstaller D:(A;CI;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;SY)(A;;CCDCLCSWRPWPDTLOCRRC;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;SAFA;WDWO;;;BA)
 
 	:: ----- Reregister the BITS files and the Windows Update files -----
 	call :print Reregister the BITS files and the Windows Update files.
@@ -796,7 +783,7 @@ goto :eof
 	reg delete "HKLM\COMPONENTS\NextQueueEntryIndex" /f
 	reg delete "HKLM\COMPONENTS\AdvancedInstallersNeedResolving" /f
 	reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f
-	
+
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v ResetClient /f
 	reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate" /v ResetDataStoreReason /f
 
@@ -967,25 +954,24 @@ goto :eof
 :: /*************************************************************************************/
 
 
-:: Run SetupDiag.
-:: void setupDiag();
+:: Reset the Windows Store.
+:: void wsreset();
 :: /*************************************************************************************/
-:setupDiag
-	for /f "tokens=1-5 delims=/., " %%a in ("%date%") do (
-		set now=%%a%%b%%c%%d%time:~0,2%%time:~3,2%
-	)
+:wsreset
+	call :print Resetting the Windows Store.
 
-	if not exist "%USERPROFILE%\Desktop\Backup\Logs\%now%\" (
-		mkdir "%USERPROFILE%\Desktop\Backup\Logs\%now%\"
-	)
+	wsreset
+goto :eof
+:: /*************************************************************************************/
 
-	call :print Running the standalone diagnostic tool SetupDiag
 
-	if %family% EQU 10 (
-		call "%~dp0SetupDiag.exe" /Output:"%USERPROFILE%\Desktop\Backup\Logs\%now%\WindowsUpdate.log" /Format:log
-	) else (
-		echo.Sorry, this option is not available on this Operative System.
-	)
+:: Get the Windows Product Key.
+:: void productKey();
+:: /*************************************************************************************/
+:productKey
+	call :print Getting the Windows Product Key.
+
+	wmic path SoftwareLicensingService get OA3xOriginalProductKey
 
 	echo.
 	echo.Press any key to continue . . .
@@ -1049,7 +1035,7 @@ goto :eof
 :: void help();
 :: /*************************************************************************************/
 :help
-	start http://docs.wureset.com/
+	start https://github.com/ManuelGil/Reset-Windows-Update-Tool/wiki
 goto :eof
 :: /*************************************************************************************/
 
@@ -1060,7 +1046,7 @@ goto :eof
 :diagnostic
 	call :print Download and run diagnostics for your system.
 
-	echo.    1. Windows Update on Windows 7, Windows 8 and Windows 8.1.
+	echo.    1. Windows Update on Windows 8 and Windows 8.1.
 	echo.    2. Windows Update on Windows 10.
 	echo.    3. Apps on Windows 8.1.
 	echo.    4. Apps on Windows 10.
@@ -1087,7 +1073,7 @@ goto :eof
 		echo.Press any key to continue . . .
 		pause>nul
 	)
- 
+
 	goto diagnostic
 goto :eof
 :: /*************************************************************************************/
